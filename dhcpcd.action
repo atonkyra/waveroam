@@ -1,0 +1,11 @@
+#!/bin/bash
+if_name=${1}
+action=${2}
+
+/usr/bin/pgrep -F /run/dhcpcd-${if_name}.pid 1>/dev/null 2>/dev/null || exit 0
+
+if [ "${action}" == "CONNECTED" ]; then
+    /sbin/dhcpcd -n ${if_name}
+elif [ "${action}" == "DISCONNECTED" ]; then
+    exit 0
+fi
